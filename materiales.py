@@ -1,45 +1,37 @@
-_materiales = []
-_contador_id = 1  
+
+import mysql.connector
+
+conexion = mysql.connector.connect(
+    host     = "localhost",
+    user     = "root",
+    password = "",
+    database = "Clinica Dental"
+)
+cursor = conexion.cursor()
 
 
-def insertar_material(nombre, cantidad, unidad, precio):
-    global _contador_id
-    material = {
-        "id": _contador_id,
-        "nombre": nombre,
-        "cantidad": cantidad,
-        "unidad": unidad,
-        "precio": precio,
-    }
-    _materiales.append(material)
-    _contador_id += 1
-    return material
+def agregar_material(nombre, cantidad, unidad, precio):
+    sql = "INSERT INTO Material (nombre_material, cantidad, unidad, precio_unitario) VALUES (%s, %s, %s, %s)"
+    cursor.execute(sql, (nombre, cantidad, unidad, precio))
+    conexion.commit()
 
 
-def consultar_materiales():
-    return list(_materiales)
+def ver_materiales():
+    cursor.execute("SELECT * FROM Material")
+    return cursor.fetchall()
 
 
-def consultar_material_por_id(id_material):
-    for m in _materiales:
-        if m["id"] == int(id_material):
-            return m
-    return None
+def buscar_material(id_mat):
+    cursor.execute("SELECT * FROM Material WHERE id_material = %s", (id_mat,))
+    return cursor.fetchone()
 
 
-def actualizar_material(id_material, nombre, cantidad, unidad, precio):
-    for m in _materiales:
-        if m["id"] == int(id_material):
-            m["nombre"] = nombre
-            m["cantidad"] = cantidad
-            m["unidad"] = unidad
-            m["precio"] = precio
-            return True
-    return False
+def actualizar_material(id_mat, nombre, cantidad, unidad, precio):
+    sql = "UPDATE Material SET nombre_material=%s, cantidad=%s, unidad=%s, precio_unitario=%s WHERE id_material=%s"
+    cursor.execute(sql, (nombre, cantidad, unidad, precio, id_mat))
+    conexion.commit()
 
 
-def eliminar_material(id_material):
-    global _materiales
-    antes = len(_materiales)
-    _materiales = [m for m in _materiales if m["id"] != int(id_material)]
-    return antes - len(_materiales) 
+def eliminar_material(id_mat):
+    cursor.execute("DELETE FROM Material WHERE id_material = %s", (id_mat,))
+    conexion.commit()
