@@ -7,12 +7,12 @@ from datetime import datetime
 # ============================================================
  
 def pedir_numero(mensaje):
-    """Pide un numero entero. Usa recursividad si el usuario se equivoca."""
-    try:
-        numero = int(input(mensaje))
-        return numero
-    except ValueError:
-        print("Error: escribe solo numeros.")
+    """Pide un numero entero. Usa recursividad si el usuario se equivoca. Solo acepta enteros (no decimales)."""
+    entrada = input(mensaje).strip()
+    if entrada.lstrip("-").isdigit():
+        return int(entrada)
+    else:
+        print("Error: escribe solo numeros enteros (sin decimales).")
         return pedir_numero(mensaje)  # recursividad
  
 def pedir_decimal(mensaje):
@@ -31,6 +31,17 @@ def pedir_texto(mensaje):
         if texto != "":
             return texto
         print("Este campo no puede estar vacio.")
+ 
+def pedir_texto_max(mensaje, maximo):
+    """Pide un texto que no puede estar vacio y no debe exceder el maximo de caracteres."""
+    while True:
+        texto = input(mensaje).strip()
+        if texto == "":
+            print("Este campo no puede estar vacio.")
+        elif len(texto) > maximo:
+            print(f"Error: el texto no debe exceder {maximo} caracteres.")
+        else:
+            return texto
  
 def linea():
     """Imprime una linea separadora."""
@@ -121,7 +132,7 @@ def eliminar_material():
 def agregar_servicio():
     """Pide los datos y guarda un servicio en la base de datos."""
     print("\n-- Agregar servicio --")
-    id_ser    = pedir_texto("ID del servicio (maximo 5 caracteres, ej: S001): ")
+    id_ser    = pedir_texto_max("ID del servicio (maximo 5 caracteres, ej: S001): ", 5)
     nombre    = pedir_texto("Nombre del servicio: ")
     proveedor = pedir_texto("Proveedor: ")
     costo     = pedir_decimal("Costo mensual: ")
