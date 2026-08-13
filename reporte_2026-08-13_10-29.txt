@@ -1,0 +1,10 @@
+REPORTE - Clinica Dental
+Generado: 2026-08-13 10:29:30.900438
+========================================
+
+MATERIALES:
+ID: 1 | Guantes | 20 cajas | $45.50
+
+PACIENTES:
+
+Total pacientes: 0
