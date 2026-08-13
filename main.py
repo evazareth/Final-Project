@@ -526,3 +526,4 @@ menu_principal()
 # Cerramos la conexion al salir
 conexion.cursor.close()
 conexion.conexion.close()
+#terminado

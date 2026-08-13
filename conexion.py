@@ -16,3 +16,4 @@ def obtener_conexion():
 # Conexion y cursor globales para usar en todo el proyecto
 conexion = obtener_conexion()
 cursor   = conexion.cursor()
+#terminado
